@@ -24,6 +24,7 @@ func Connect(){
 	fmt.Println("Connection Opened to Database")
 
 	db.AutoMigrate(&models.Book{})
+	db.AutoMigrate(&models.Borrowed{})
 	
 	DB = db
 
