@@ -19,7 +19,7 @@ func GetBook(c *gin.Context){
     
 
     c.JSON(200, gin.H{
-        "data": book,
+        "Books": book,
     })
 }
 
@@ -36,7 +36,11 @@ func CreateBookParams(c *gin.Context){
     config.DB.Create(&book)
 
     c.JSON(200, gin.H{
-        "data": book,
+        "book_id": book.BookID,
+		"name": book.Name,
+		"title": book.Title,
+		"author": book.Author,
+		"status": "Book Created Successfully",
     })
 }
 
@@ -51,7 +55,11 @@ func CreateBookPostForm(c *gin.Context){
 	config.DB.Create(&book)
 
 	c.JSON(200, gin.H{
-		"data": book,
+		"book_id": book.BookID,
+		"name": book.Name,
+		"title": book.Title,
+		"author": book.Author,
+		"status": "Book Created Successfully",
 	})
 }
 
@@ -59,7 +67,7 @@ func BorrowBook(c *gin.Context){
 
 	var book models.Book
 
-	book_id := c.Param("id")
+	book_id := c.Param("book_id")
 
 	result := config.DB.Where("book_id = ?", book_id).First(&book)
 	if result.Error != nil {
@@ -95,8 +103,12 @@ func BorrowBook(c *gin.Context){
 	config.DB.Create(&borrowed)
 
 	c.JSON(200, gin.H{
-		"data": book,
-		"boorowd": borrowed,
+		"status": "Book Borrowed Successfully",
+		"borrowed_id": borrowed.BorrowedID,
+		"book_id": borrowed.BookID,
+		"start_time": borrowed.StartTime,
+		"end_time": borrowed.EndTime,
+		"returned": borrowed.Returned,
 	})
 }
 
@@ -110,8 +122,24 @@ func GetBorrowedBooks(c *gin.Context){
 		fmt.Println(result.Error)
 	}
 
+	var borrowedData []gin.H
+
+	for _, borrow := range borrowed {
+		var book models.Book
+		config.DB.Where("book_id = ?", borrow.BookID).First(&book)
+
+		borrowedData = append(borrowedData, gin.H{
+			"borrowed_id": borrow.BorrowedID,
+			"book_id": borrow.BookID,
+			"book_name": book.Name,
+			"start_time": borrow.StartTime,
+			"end_time": borrow.EndTime,
+			"returned": borrow.Returned,
+		})
+	}
+
 	c.JSON(200, gin.H{
-		"Borrowed_Data": borrowed,
+		"BorrowedBooks": borrowedData,
 	})
 
 }
@@ -126,12 +154,18 @@ func ReturnBook(c *gin.Context){
 
 	result := config.DB.Where("book_id = ?", book_id).First(&book)
 	if result.Error != nil {
-    fmt.Println(result.Error)
+     c.JSON(200, gin.H{
+		"message": "Invalid Book ID",
+	 })
+	 return
 	}
 
 	result = config.DB.Where("borrowed_id = ?", borrow_id).First(&borrowed)
 	if result.Error != nil {
-	fmt.Println(result.Error)
+		c.JSON(200, gin.H{
+			"message": "Invalid Borrow ID",
+		})	
+		return
 	}
 
 	if borrowed.Returned == true {
@@ -147,7 +181,9 @@ func ReturnBook(c *gin.Context){
 	config.DB.Model(&borrowed).Update("returned", true)
 
 	c.JSON(200, gin.H{
-		"message": "Book Returned , Thank you for using our service",
+		"status": "Book Returned Successfully",
+		"borrowed_id": borrowed.BorrowedID,
+		"book_id": borrowed.BookID,
 	})
 
 }
