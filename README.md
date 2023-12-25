@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
+- [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [License](#license)
 - [Documentation](#documentation)
@@ -13,6 +14,15 @@ Before using this repository, make sure you have the following prerequisites ins
 
 - Docker: [Installation Guide](https://docs.docker.com/get-docker/)
 - Go: [Installation Guide](https://golang.org/doc/install)
+
+## Tech Stack
+
+This project uses the following technologies:
+
+- [Go](https://golang.org/): The backend service is written in Go.
+- [Docker](https://www.docker.com/): Docker is used for setting up the database and running the application in a containerized environment.
+- [GORM](https://gorm.io/): GORM (Go Object-Relational Mapper) is used for handling database operations.
+- [Gin](https://gin-gonic.com/): Gin is a web framework used for routing and handling HTTP requests.
 
 ## Getting Started
 
