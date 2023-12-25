@@ -5,8 +5,8 @@
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [License](#license)
+- [Apis](#api-usage-guide)
 - [Documentation](#documentation)
-- [APIs](#apis)
 
 ## Prerequisites
 
@@ -47,6 +47,44 @@ Follow these steps to get started with the project:
     ```bash
     go run main.go
     ```
+## API Usage Guide
+
+Here are the available endpoints and how to use them:
+
+- **Add a book**
+
+  `PUT /api/v1/booky/`
+
+  Parameters:
+    - name of the book
+    - author of the book
+    - title of the book
+
+- **Browse the shared books**
+
+  `GET /api/v1/booky/`
+
+- **Borrow a book for a certain duration of time**
+
+  `PUT /api/v1/booky/<book_id>/borrow`
+
+  Parameters:
+
+  - `book_id`: ID of the Book that has been added for sharing with others
+  - `borrow_period`: No of Days You Want To B 
+
+- **View all the borrowed books**
+
+  `GET /api/v1/booky/borrowed`
+
+- **Return a borrowed book**
+
+  `POST /api/v1/booky/<book_id>/borrow/<borrow_id>`
+
+  Parameters:
+
+  - `book_id`: ID of the Book that has been added for sharing with others
+  - `borrow_id`: ID of the Borrow operation for Book with book_id
 
 ## Documentation
 
