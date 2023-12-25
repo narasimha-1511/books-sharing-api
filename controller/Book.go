@@ -71,7 +71,10 @@ func BorrowBook(c *gin.Context){
 
 	result := config.DB.Where("book_id = ?", book_id).First(&book)
 	if result.Error != nil {
-    fmt.Println(result.Error)
+   	 c.JSON(200, gin.H{
+		"message": "Invalid Book ID",
+	 })
+	 return
 	}
 
 	//Check if the book is already borrowed
