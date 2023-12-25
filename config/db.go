@@ -11,7 +11,6 @@ import (
 var DB *gorm.DB
 
 func Connect(){
-	// Do something here.
 	// db, err := gorm.Open(postgres.Open("postgres://postgres:postgres@localhost:5432/postgres"))
 
 	dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432"

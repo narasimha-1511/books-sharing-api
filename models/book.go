@@ -23,4 +23,5 @@ type Borrowed struct {
     StartTime   time.Time     `json:"startTimestamp"`
     EndTime     time.Time     `json:"endTimestamp"`
     Returned    bool       `json:"returned" gorm:"default:false"`
+    ReturnedAt  time.Time     `json:"returnedAt"`
 }

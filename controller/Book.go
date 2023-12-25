@@ -134,6 +134,15 @@ func ReturnBook(c *gin.Context){
 	fmt.Println(result.Error)
 	}
 
+	if borrowed.Returned == true {
+		c.JSON(200, gin.H{
+			"message": "Book is already returned",
+		})	
+		return
+	}
+
+	borrowed.ReturnedAt = time.Now()
+
 	config.DB.Model(&book).Update("borrowed", false)
 	config.DB.Model(&borrowed).Update("returned", true)
 
